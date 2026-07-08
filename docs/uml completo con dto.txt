@@ -1,0 +1,112 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam monochrome true
+left to right direction
+
+package modelos {
+    abstract class Usuario {
+      # username: String
+      # password: String
+      + {abstract} getRol(): String
+      + {abstract} toCSV(): String
+    }
+    class Administrador extends Usuario {}
+    class Vendedor extends Usuario {}
+    class Cliente extends Usuario {
+      - codigoUnico: String
+      - dni: String
+      - nombre: String
+    }
+
+    abstract class Vehiculo {
+      # patente: String
+      # precioBaseDiario: double
+      + {abstract} calcularAlquiler(dias: int): double
+    }
+    class Auto extends Vehiculo {}
+    class Camioneta extends Vehiculo {
+      - recargoCapacidad: double
+    }
+
+    class Oficina {
+      - idOficina: String
+      - direccion: String
+    }
+    class Reserva {
+      - idReserva: String
+      - fechaInicio: LocalDate
+      - precioTotal: double
+      - entregado: boolean
+    }
+    
+    Vendedor "1" -- "0..*" Reserva : realiza >
+    Reserva "1" o-- "1..*" Vehiculo : incluye >
+    Vehiculo "*" -- "1" Oficina : ubicada en >
+}
+
+package dto {
+    class UsuarioDTO {
+      - username: String
+      - rol: String
+      + getUsername()
+      + getRol()
+    }
+    class ClienteDTO extends UsuarioDTO {
+      - dni: String
+      - nombre: String
+      - codigoUnico: String
+    }
+    class VehiculoDTO {
+      - patente: String
+      - marca: String
+      - modelo: String
+      - precioDiario: double
+    }
+    class ReservaDTO {
+      - idReserva: String
+      - clienteDni: String
+      - patentesInvolucradas: List<String>
+      - precioTotal: double
+      - estadoEntregado: boolean
+    }
+}
+
+package dao {
+    class SixtDAO {
+      - RUTA_USUARIOS: Path
+      - RUTA_RESERVAS: Path
+      + guardarModelos(...)
+      + leerUsuariosModelos(): List<Usuario>
+      + leerReservasModelos(): List<Reserva>
+    }
+}
+
+package servicios {
+    class SixtService {
+      - dao: SixtDAO
+      - usuarios: List<Usuario>
+      - reservas: List<Reserva>
+      + login(user, pass): UsuarioDTO
+      + crearReserva(r: ReservaDTO): void
+      + listarReservas(): List<ReservaDTO>
+      - mapearModeloADto(m: Modelo): DTO
+      - mapearDtoAModelo(d: DTO): Modelo
+    }
+}
+
+package main {
+    class Principal {
+      + main(args: String[])
+    }
+}
+
+' --- DEPENDENCIAS (El flujo de la información) ---
+Principal ..> SixtService : usa >
+Principal ..> dto : usa \nsolo DTOs >
+
+SixtService ..> SixtDAO : usa >
+SixtService ..> modelos : " Lee/Escribe \n Modelos"
+SixtService ..> dto : " Recibe/Devuelve \n DTOs"
+
+SixtDAO ..> modelos : persiste >
+@enduml

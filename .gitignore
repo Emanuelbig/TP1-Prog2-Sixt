@@ -1,0 +1,16 @@
+# Archivos compilados de Java
+*.class
+
+# Carpetas de construcción de NetBeans
+build/
+dist/
+
+# Configuraciones privadas de NetBeans de cada usuario
+nbproject/private/
+nbbuild/
+nbdist/
+.nb-gradle/
+
+# Archivos de sistema operativo (Mac/Windows)
+.DS_Store
+Thumbs.db
