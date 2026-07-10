@@ -21,9 +21,13 @@ A continuación se detalla el Diagrama de Clases del dominio, incluyendo el patr
   - Creación de clases dto en el paquete `dto`.
 - [ ] **Sprint 2: El Almacenamiento (DAO)**
   - Lectura y escritura de archivos `.txt` utilizando `java.nio`.
+  - Falta implementar sección vehículos y sección oficinas.
 - [ ] **Sprint 3: El Cerebro (Servicios)**
-  - Implementación de la lógica de negocio (`AuthService` y `SixtService`).
+  - Implementación de la lógica de negocio (`AuthServicios` y `SixtServicio`).
   - Lógica de cálculo de precios y gestión de DTOs.
+  - en Sixtservicio falta la parte de oficinas vehïculos y reservas.
+  - Agregar en cargarDatosEnMemoria() por ejemplo this.vehiculos = dao.leerVehiculos();
+  - Faltan metodos, mirar el uml
 - [ ] **Sprint 4: La Pantalla (Main y Consola)**
   - Desarrollo de menús interactivos por roles (Admin, Vendedor, Cliente).
 - [ ] **Sprint 5: Entregables Finales**
