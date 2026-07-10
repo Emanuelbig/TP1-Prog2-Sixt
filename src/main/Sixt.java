@@ -15,6 +15,7 @@ public class Sixt {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        System.out.println("El sistema de gestion esta en construccion, vuelvas prontos");
     }
     
 }
