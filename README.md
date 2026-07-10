@@ -17,6 +17,8 @@ A continuación se detalla el Diagrama de Clases del dominio, incluyendo el patr
   - Creación de clases en el paquete `modelos`.
   - Implementación de Herencia en Usuarios y Polimorfismo en Vehículos.
   - Creación de constructores, getters, setters y método `toCSV()`.
+- [x] **Sprint 1: Atributos de clases que vamos a guardar/mostrar (DTO)**
+  - Creación de clases dto en el paquete `dto`.
 - [ ] **Sprint 2: El Almacenamiento (DAO)**
   - Lectura y escritura de archivos `.txt` utilizando `java.nio`.
 - [ ] **Sprint 3: El Cerebro (Servicios)**
