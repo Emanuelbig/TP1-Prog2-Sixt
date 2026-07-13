@@ -1,18 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package modelos;
 
-/**
- *
- * @author 
- */
 public class Vendedor extends Usuario {
-    
-    //Constructor con super que toma los datos de la clase padre
-    public Vendedor(String username, String password) {
-        super(username, password);
+
+    public Vendedor(int id, String username, String password) {
+        super(id, username, password);
     }
 
     @Override
@@ -22,7 +13,8 @@ public class Vendedor extends Usuario {
 
     @Override
     public String toCSV() {
-        return getRol() + ";" + username + ";" + password;
+        // Formato: id;ROL;user;pass
+        return id + ";" + getRol() + ";" + username + ";" + password;
     }
 
     @Override

@@ -1,15 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package modelos;
 
-/**
- *
- * @author
- */
 public abstract class Vehiculo {
-    //atributos
+
+    protected int id;
     protected String patente;
     protected String marca;
     protected String modelo;
@@ -17,8 +10,8 @@ public abstract class Vehiculo {
     protected double precioBaseDiario;
     protected Oficina oficinaActual;
 
-    //constructor
-    public Vehiculo(String patente, String marca, String modelo, String color, double precioBaseDiario, Oficina oficinaActual) {
+    public Vehiculo(int id, String patente, String marca, String modelo, String color, double precioBaseDiario, Oficina oficinaActual) {
+        this.id = id;
         this.patente = patente;
         this.marca = marca;
         this.modelo = modelo;
@@ -27,7 +20,10 @@ public abstract class Vehiculo {
         this.oficinaActual = oficinaActual;
     }
 
-    //getters
+    // Getters
+    public int getId() {
+        return id;
+    }
 
     public String getPatente() {
         return patente;
@@ -52,9 +48,8 @@ public abstract class Vehiculo {
     public Oficina getOficinaActual() {
         return oficinaActual;
     }
-    
-    //setters
 
+    // Setters
     public void setPatente(String patente) {
         this.patente = patente;
     }
@@ -78,9 +73,8 @@ public abstract class Vehiculo {
     public void setOficinaActual(Oficina oficinaActual) {
         this.oficinaActual = oficinaActual;
     }
-    
+    // Nota: no hay setId(), mismo criterio que en Usuario.
 
-    //metodos polimorfismo
     public abstract double calcularAlquiler(int dias);
     public abstract String toCSV();
 }

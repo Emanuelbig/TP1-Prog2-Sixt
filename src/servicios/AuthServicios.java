@@ -30,7 +30,7 @@ public class AuthServicios {
         // Si el usuario es un Cliente, usamos el Cliente dto
         if (u.getRol().equals("CLIENTE")) {
             Cliente c = (Cliente) u;
-            return new ClienteDTO(c.getUsername(), c.getRol(), c.getDni(), c.getNombre(), c.getCodigoUnico());
+            return new ClienteDTO(c.getUsername(), c.getRol(), c.getDni(), c.getNombre());
         }
 
         // Si es Admin o Vendedor, usamos usuario dto

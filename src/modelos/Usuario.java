@@ -1,26 +1,22 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package modelos;
 
-/**
- *
- * @author
- */
 public abstract class Usuario {
 
-    //Atributos
+    protected int id;
     protected String username;
     protected String password;
 
-    //Constructor
-    public Usuario(String username, String password) {
+    public Usuario(int id, String username, String password) {
+        this.id = id;
         this.username = username;
         this.password = password;
     }
 
-    //Getters
+    // Getters
+    public int getId() {
+        return id;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -29,7 +25,7 @@ public abstract class Usuario {
         return password;
     }
 
-    //Setters
+    // Setters
     public void setUsername(String username) {
         this.username = username;
     }
@@ -37,9 +33,9 @@ public abstract class Usuario {
     public void setPassword(String password) {
         this.password = password;
     }
+    // Nota: no hay setId() a propósito. El id se define una sola vez al crear
+    // el objeto y no debería cambiar nunca (mismo criterio que una PK en una tabla).
 
-    // Metodos para pasar a texto y a formato CSV para guardar en .txt
     public abstract String getRol();
-
     public abstract String toCSV();
 }

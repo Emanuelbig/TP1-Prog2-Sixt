@@ -1,28 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package modelos;
 
-/**
- *
- * @author
- */
 public class Oficina {
-    //atributos
-    private String idOficina;
+
+    private int idOficina;
     private String nombre;
     private String direccion;
 
-    //constructor
-    public Oficina(String idOficina, String nombre, String direccion) {
+    public Oficina(int idOficina, String nombre, String direccion) {
         this.idOficina = idOficina;
         this.nombre = nombre;
         this.direccion = direccion;
     }
 
-    //getters
-    public String getIdOficina() {
+    // Getters
+    public int getIdOficina() {
         return idOficina;
     }
 
@@ -33,13 +24,8 @@ public class Oficina {
     public String getDireccion() {
         return direccion;
     }
-    
-    //setters
 
-    public void setIdOficina(String idOficina) {
-        this.idOficina = idOficina;
-    }
-
+    // Setters
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -47,8 +33,8 @@ public class Oficina {
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
+    // Nota: no hay setIdOficina(), mismo criterio que en Usuario y Vehiculo.
 
-    //metodos
     public String toCSV() {
         return idOficina + ";" + nombre + ";" + direccion;
     }

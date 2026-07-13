@@ -1,26 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package modelos;
 
-/**
- *
- * @author 
- */
 public class Cliente extends Usuario {
-    //Atributos
-    private String codigoUnico;
+
     private String dni;
     private String nombre;
     private String direccion;
     private String email;
     private String telefono;
 
-    //Constructor
-    public Cliente(String username, String password, String codigoUnico, String dni, String nombre, String direccion, String email, String telefono) {
-        super(username, password);
-        this.codigoUnico = codigoUnico;
+    public Cliente(int id, String username, String password, String dni, String nombre, String direccion, String email, String telefono) {
+        super(id, username, password);
         this.dni = dni;
         this.nombre = nombre;
         this.direccion = direccion;
@@ -28,11 +17,7 @@ public class Cliente extends Usuario {
         this.telefono = telefono;
     }
 
-    //getters
-    public String getCodigoUnico() {
-        return codigoUnico;
-    }
-
+    // Getters
     public String getDni() {
         return dni;
     }
@@ -52,12 +37,8 @@ public class Cliente extends Usuario {
     public String getTelefono() {
         return telefono;
     }
-    
-    //setters
-    public void setCodigoUnico(String codigoUnico) {
-        this.codigoUnico = codigoUnico;
-    }
 
+    // Setters
     public void setDni(String dni) {
         this.dni = dni;
     }
@@ -77,9 +58,7 @@ public class Cliente extends Usuario {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
-    
-    
-    //sobreescribimos metodos
+
     @Override
     public String getRol() {
         return "CLIENTE";
@@ -87,12 +66,12 @@ public class Cliente extends Usuario {
 
     @Override
     public String toCSV() {
-        // Formato: ROL;user;pass;codigo;dni;nombre;direccion;email;telefono
-        return getRol() + ";" + username + ";" + password + ";" + codigoUnico + ";" + dni + ";" + nombre + ";" + direccion + ";" + email + ";" + telefono;
+        // Formato: id;ROL;user;pass;dni;nombre;direccion;email;telefono
+        return id + ";" + getRol() + ";" + username + ";" + password + ";" + dni + ";" + nombre + ";" + direccion + ";" + email + ";" + telefono;
     }
 
     @Override
     public String toString() {
-        return "Cliente [" + codigoUnico + "] " + nombre + " | DNI: " + dni;
+        return "Cliente [" + id + "] " + nombre + " | DNI: " + dni;
     }
 }
