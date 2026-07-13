@@ -5,9 +5,10 @@
 package dto;
 
 /**
- *
- * @
- */
+*
+* Grupo H, Programacion 2, Turno Noche, Año 2026
+* 
+**/
 public class VehiculoDTO {
 
     //Atributos

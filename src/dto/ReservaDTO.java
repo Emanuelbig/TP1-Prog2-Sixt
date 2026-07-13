@@ -7,9 +7,10 @@ package dto;
 import java.util.List;
 
 /**
- *
- *
- */
+*
+* Grupo H, Programacion 2, Turno Noche, Año 2026
+* 
+**/
 public class ReservaDTO {
 
     //Atributos

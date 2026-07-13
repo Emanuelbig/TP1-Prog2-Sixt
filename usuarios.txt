@@ -1,3 +1,0 @@
-1;ADMIN;admin;1234
-2;VENDEDOR;vendedor;1234
-3;CLIENTE;cliente;1234;1234;cliente;nuevo123;admin@admin;12345

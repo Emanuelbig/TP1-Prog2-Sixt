@@ -18,17 +18,19 @@ A continuación se detalla el Diagrama de Clases del dominio, incluyendo el patr
   - Implementación de Herencia en Usuarios y Polimorfismo en Vehículos.
   - Creación de constructores, getters, setters y método `toCSV()`.
 - [x] **Sprint 2: Atributos de clases que vamos a guardar/mostrar (DTO)**
-  - Creación de clases dto en el paquete `dto`.
-- [ ] **Sprint 2: El Almacenamiento (DAO)**
+  - Creación de clases dto en el paquete `dto` para aislar la información sensible.
+- [x] **Sprint 3: El Almacenamiento (DAO)**
   - Lectura y escritura de archivos `.txt` utilizando `java.nio`.
-  - Falta implementar sección vehículos y sección oficinas.
-- [ ] **Sprint 3: El Cerebro (Servicios)**
+  - Implementación completa de persistencia para Vehículos, Oficinas, Reservas y Usuarios.
+  - Resolución de conflictos de lectura de índices y formateo estricto por delimitador (`,`).
+- [x] **Sprint 4: El Cerebro (Servicios)**
   - Implementación de la lógica de negocio (`AuthServicios` y `SixtServicio`).
-  - Lógica de cálculo de precios y gestión de DTOs.
-  - en Sixtservicio falta la parte de oficinas vehïculos y reservas.
-  - Agregar en cargarDatosEnMemoria() por ejemplo this.vehiculos = dao.leerVehiculos();
-  - Faltan metodos, mirar el uml
-- [ ] **Sprint 4: La Pantalla (Main y Consola)**
+  - Lógica de cálculo de precios dinámicos según el tipo de vehículo.
+  - Gestión de memoria y carga relacional (`cargarDatosEnMemoria()`) recreando las referencias entre objetos.
+  - Algoritmo de filtrado por fechas cruzadas para obtener vehículos disponibles.
+- [x] **Sprint 5: La Pantalla (Main y Consola) y Experiencia de Usuario (UX)**
   - Desarrollo de menús interactivos por roles (Admin, Vendedor, Cliente).
-- [ ] **Sprint 5: Entregables Finales**
+  - Implementación de "Escudos de Teclado" (`pedirEntero`, `pedirDouble`) para evitar crasheos por `NumberFormatException`.
+  - Aplicación de principios UX: *Fail Fast* (validación instantánea de IDs), manejo de *Empty States* (listas vacías) y *Feedback Desglosado* para los errores operativos.
+- [x] **Sprint 6: Entregables Finales**
   - Generación de Javadoc y compilación del `.jar` final.

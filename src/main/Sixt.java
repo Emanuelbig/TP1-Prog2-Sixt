@@ -14,6 +14,8 @@ import java.util.List;
 
 /**
  * Menu del programa
+ * 
+ * Grupo H, Programacion 2, Turno Noche, Año 2026
  *
  */
 public class Sixt {
@@ -32,16 +34,17 @@ public class Sixt {
             System.out.println("BIENVENIDO A SIXT, ALQUILA TU AUTO :)");
             System.out.println("1. Iniciar sesion");
             System.out.println("2. Salir del sistema");
-            System.out.println("Seleccione una opcion:\n\n");
+            //System.out.println("Seleccione una opcion:\n\n");
 
-            int opcion = scanner.nextInt();
-            scanner.nextLine(); //con este scanner limpio el enter, sino me tiro usuario y contraseña al mismo tiempo
+            int opcion = pedirEntero(scanner, "Elegi una opcion: \n\n");
+            //int opcion = scanner.nextInt();
+            //scanner.nextLine(); //con este scanner limpio el enter, sino me tiro usuario y contraseña al mismo tiempo
 
             switch (opcion) {
                 case 1:
                     System.out.println("Usuario:");
                     String user = scanner.nextLine();
-                    System.out.println("Contraseña:");
+                    System.out.println("Password:");
                     String pass = scanner.nextLine();
 
                     UsuarioDTO usuarioLogueado = SixtServicio.iniciarSesion(user, pass);
@@ -51,14 +54,18 @@ public class Sixt {
                     } else {
                         System.out.println("Login exitoso! Bienvenido, " + usuarioLogueado.getUsername());
                         switch (usuarioLogueado.getRol()) {
-                            case "ADMIN" ->
+                            case "ADMIN":
                                 menuAdmin(scanner, SixtServicio);
-                            case "VENDEDOR" ->
+                                break;
+                            case "VENDEDOR":
                                 menuVendedor(scanner, SixtServicio);
-                            case "CLIENTE" ->
+                                break;
+                            case "CLIENTE":
                                 menuCliente(scanner, SixtServicio, usuarioLogueado);
-                            default ->
+                                break;
+                            default:
                                 System.out.println("Rol desconocido.");
+                                break;
                         }
                     }
                     break;
@@ -68,6 +75,7 @@ public class Sixt {
                     break;
                 default:
                     System.out.println("Opcion invalida.");
+                    break;
             }
         }
 
@@ -75,7 +83,7 @@ public class Sixt {
     }
 
     static void pausar(Scanner scanner) {
-        System.out.println("\nPresioná ENTER para volver al menú...");
+        System.out.println("\nPresiona ENTER para volver al menu...");
         scanner.nextLine();
     }
     static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -85,40 +93,44 @@ public class Sixt {
         do {
             System.out.println("\n--- MENU ADMINISTRADOR ---");
             System.out.println("1. Agregar oficina");
-            System.out.println("2. Gestionar vehículos");
+            System.out.println("2. Gestionar vehiculos");
             System.out.println("3. Agregar usuarios");
             System.out.println("4. Ver reservas");
-            System.out.println("5. Cerrar sesión");
-            System.out.print("Elegí una opción: ");
-            opcion = Integer.parseInt(scanner.nextLine());
+            System.out.println("5. Ver vehiculos");
+            System.out.println("6. Cerrar sesion");
+            //System.out.print("Elegí una opción: ");
+            opcion = pedirEntero(scanner, "Elegi una opcion: ");
+            //opcion = Integer.parseInt(scanner.nextLine());
 
             switch (opcion) {
-                case 1 -> {
+                case 1:
                     agregarOficina(scanner, servicio);
                     pausar(scanner);
-                }
-                case 2 -> {
+                    break;
+                case 2:
                     agregarVehiculo(scanner, servicio);
                     pausar(scanner);
-                }
-                case 3 -> {
+                    break;
+                case 3:
                     agregarUsuario(scanner, servicio);
                     pausar(scanner);
-                }
-                case 4 -> {
+                    break;
+                case 4:
                     listarReservas(servicio);
                     pausar(scanner);
-                }
-                case 5 -> {
+                    break;
+                case 5:
                     listarVehiculos(servicio);
                     pausar(scanner);
-                }
-                case 6 ->
-                    System.out.println("Cerrando sesión...");
-                default ->
-                    System.out.println("Opción inválida");
+                    break;
+                case 6:
+                    System.out.println("Cerrando sesion...");
+                    break;
+                default:
+                    System.out.println("Opcion inválida");
+                    break;
             }
-        } while (opcion != 5);
+        } while (opcion != 6);
     }
 
     static void menuVendedor(Scanner scanner, servicios.SixtServicio servicio) {
@@ -128,32 +140,35 @@ public class Sixt {
             System.out.println("1. Gestionar clientes");
             System.out.println("2. Crear reservas");
             System.out.println("3. Marcar reserva como entregada");
-            System.out.println("4. Ver vehículos disponibles");
-            System.out.println("5. Cerrar sesión");
-            System.out.print("Elegí una opción: ");
-            opcion = Integer.parseInt(scanner.nextLine());
+            System.out.println("4. Ver vehiculos disponibles");
+            System.out.println("5. Cerrar sesion");
+            //System.out.print("Elegí una opción: ");
+            //opcion = Integer.parseInt(scanner.nextLine());
+            opcion = pedirEntero(scanner, "Elegi una opcion: ");
 
             switch (opcion) {
-                case 1 -> {
+                case 1:
                     agregarCliente(scanner, servicio);
                     pausar(scanner);
-                }
-                case 2 -> {
+                    break;
+                case 2:
                     agregarReserva(scanner, servicio);
                     pausar(scanner);
-                }
-                case 3 -> {
+                    break;
+                case 3:
                     marcarEntrega(scanner, servicio);
                     pausar(scanner);
-                }
-                case 4 -> {
+                    break;
+                case 4:
                     verDisponibles(scanner, servicio);
                     pausar(scanner);
-                }
-                case 5 ->
-                    System.out.println("Cerrando sesión...");
-                default ->
-                    System.out.println("Opción inválida");
+                    break;
+                case 5:
+                    System.out.println("Cerrando sesion...");
+                    break;
+                default:
+                    System.out.println("Opcion invalida");
+                    break;
             }
         } while (opcion != 5);
     }
@@ -164,23 +179,27 @@ public class Sixt {
             System.out.println("\n--- MENU CLIENTE ---");
             System.out.println("1. Ver mis reservas");
             System.out.println("2. Ver mi estado/deuda");
-            System.out.println("3. Cerrar sesión");
-            System.out.print("Elegí una opción: ");
-            opcion = Integer.parseInt(scanner.nextLine());
+            System.out.println("3. Cerrar sesion");
+            //System.out.print("Elegí una opción: ");
+            //opcion = Integer.parseInt(scanner.nextLine());
+
+            opcion = pedirEntero(scanner, "Elegi una opcion: ");
 
             switch (opcion) {
-                case 1 -> {
+                case 1:
                     verMisReservas(servicio, usuario);
                     pausar(scanner);
-                }
-                case 2 -> {
+                    break;
+                case 2:
                     verMiInfo(usuario);
                     pausar(scanner);
-                }
-                case 3 ->
-                    System.out.println("Cerrando sesión...");
-                default ->
-                    System.out.println("Opción inválida");
+                    break;
+                case 3:
+                    System.out.println("Cerrando sesion...");
+                    break;
+                default:
+                    System.out.println("Opción invalida");
+                    break;
             }
         } while (opcion != 3);
     }
@@ -188,7 +207,7 @@ public class Sixt {
     static void agregarOficina(Scanner scanner, servicios.SixtServicio servicio) {
         System.out.print("Nombre de la oficina: ");
         String nombre = scanner.nextLine();
-        System.out.print("Dirección: ");
+        System.out.print("Direccion: ");
         String direccion = scanner.nextLine();
 
         boolean exito = servicio.registrarNuevaOficina(nombre, direccion);
@@ -202,13 +221,13 @@ public class Sixt {
 
     static void agregarVehiculo(Scanner scanner, servicios.SixtServicio servicio) {
         if (servicio.getOficinas().isEmpty()) {
-            System.out.println("No hay oficinas cargadas. Primero cargá una oficina para poder dar de alta un vehículo.");
+            System.out.println("No hay oficinas cargadas. Primero carga una oficina para poder dar de alta un vehiculo.");
             return;
         }
 
         System.out.println("1. Auto");
         System.out.println("2. Camioneta");
-        System.out.print("Tipo de vehículo: ");
+        System.out.print("Tipo de vehiculo: ");
         int tipoOpcion = Integer.parseInt(scanner.nextLine());
         String tipo = (tipoOpcion == 1) ? "AUTO" : "CAMIONETA";
 
@@ -220,8 +239,9 @@ public class Sixt {
         String modelo = scanner.nextLine();
         System.out.print("Color: ");
         String color = scanner.nextLine();
-        System.out.print("Precio base diario: ");
-        double precio = Double.parseDouble(scanner.nextLine());
+        //System.out.print("Precio base diario: ");
+        //double precio = Double.parseDouble(scanner.nextLine());
+        double precio = pedirDouble(scanner, "Precio base diario: ");
 
         System.out.println("Oficinas disponibles:");
         for (modelos.Oficina o : servicio.getOficinas()) {
@@ -239,9 +259,9 @@ public class Sixt {
         boolean exito = servicio.registrarNuevoVehiculo(tipo, patente, marca, modelo, color, precio, idOficina, recargo);
 
         if (exito) {
-            System.out.println("Vehículo agregado correctamente.");
+            System.out.println("Vehiculo agregado correctamente.");
         } else {
-            System.out.println("Error: revisá que la oficina exista y la patente no esté repetida.");
+            System.out.println("Error: revise que la oficina exista y la patente no este repetida.");
         }
     }
 
@@ -253,7 +273,7 @@ public class Sixt {
             System.out.print("Fecha de fin (DD/MM/YYYY): ");
             fechaFin = LocalDate.parse(scanner.nextLine(), FORMATO_FECHA);
         } catch (Exception e) {
-            System.out.println("Fecha inválida. Usá el formato DD/MM/YYYY.");
+            System.out.println("Fecha invalida. Usa el formato DD/MM/YYYY.");
             return;
         }
 
@@ -264,63 +284,82 @@ public class Sixt {
 
         List<modelos.Vehiculo> disponibles = servicio.getVehiculosDisponibles(fechaInicio, fechaFin);
         if (disponibles.isEmpty()) {
-            System.out.println("No hay vehículos disponibles para ese rango de fechas.");
+            System.out.println("No hay vehiculos disponibles para ese rango de fechas.");
             return;
         }
 
-        System.out.println("Vehículos disponibles:");
+        System.out.println("Vehiculos disponibles:");
         for (modelos.Vehiculo v : disponibles) {
-            System.out.println(v);
+            //Mostramos el ID de forma bien clara antes del texto del auto
+            System.out.println("ID: " + v.getId() + " - " + v.toString());
         }
 
         List<Integer> idsElegidos = new ArrayList<>();
         boolean seguirAgregando = true;
         while (seguirAgregando) {
-            System.out.print("ID de vehículo a agregar: ");
-            int idVehiculo = Integer.parseInt(scanner.nextLine());
+            int idVehiculo = pedirEntero(scanner, "ID de vehiculo a agregar: ");
+            
+            //Verificamos que el ID tipeado exista realmente en la lista de disponibles
+            boolean existe = false;
+            for (modelos.Vehiculo v : disponibles) {
+                if (v.getId() == idVehiculo) existe = true;
+            }
+            
+            if (!existe) {
+                System.out.println("--> ERROR: El ID ingresado no esta en la lista de disponibles.");
+                continue; // Lo hace volver a pedir el ID
+            }
+            
             idsElegidos.add(idVehiculo);
 
-            System.out.print("¿Agregar otro vehículo? (s/n): ");
-            String respuesta = scanner.nextLine();
+            //Obligamos a que la respuesta sea estrictamente 's' o 'n'
+            String respuesta = "";
+            while (!respuesta.equalsIgnoreCase("s") && !respuesta.equalsIgnoreCase("n")) {
+                System.out.print("Agregar otro vehiculo? (s/n): ");
+                respuesta = scanner.nextLine();
+            }
             seguirAgregando = respuesta.equalsIgnoreCase("s");
         }
 
+        //Aviso preventivo para el usuario
+        System.out.println("\n(Aviso: El cliente ya debe estar registrado en el sistema)");
         System.out.print("DNI del cliente: ");
         String dniCliente = scanner.nextLine();
 
         System.out.println("Oficinas disponibles:");
         for (modelos.Oficina o : servicio.getOficinas()) {
-            System.out.println(o);
+            System.out.println(o); // Si acá también te faltan los IDs, cambialo a: System.out.println("ID: " + o.getIdOficina() + " - " + o.toString());
         }
-        System.out.print("ID de oficina destino: ");
-        int idOficinaDestino = Integer.parseInt(scanner.nextLine());
 
-        System.out.print("Litros de gasolina inicial: ");
-        double litros = Double.parseDouble(scanner.nextLine());
+        int idOficinaDestino = pedirEntero(scanner, "ID de oficina destino: ");
+        double litros = pedirDouble(scanner, "Litros de gasolina inicial: ");
 
         boolean exito = servicio.registrarNuevaReserva(dniCliente, idsElegidos, fechaInicio, fechaFin, idOficinaDestino, litros);
 
         if (exito) {
             System.out.println("Reserva registrada correctamente.");
         } else {
-            System.out.println("Error: revisá el DNI del cliente, los vehículos elegidos o la oficina destino.");
+            // MEJORA 5: Mensaje de error desglosado
+            System.out.println("--> ERROR AL REGISTRAR RESERVA. Por favor revise:");
+            System.out.println("  1. Que el DNI (" + dniCliente + ") pertenezca a un Cliente ya registrado.");
+            System.out.println("  2. Que la oficina de destino exista.");
         }
     }
 
     static void agregarCliente(Scanner scanner, servicios.SixtServicio servicio) {
         System.out.print("Nombre de usuario: ");
         String username = scanner.nextLine();
-        System.out.print("Contraseña: ");
+        System.out.print("Password: ");
         String password = scanner.nextLine();
         System.out.print("DNI: ");
         String dni = scanner.nextLine();
         System.out.print("Nombre completo: ");
         String nombre = scanner.nextLine();
-        System.out.print("Dirección: ");
+        System.out.print("Direccion: ");
         String direccion = scanner.nextLine();
         System.out.print("Email: ");
         String email = scanner.nextLine();
-        System.out.print("Teléfono: ");
+        System.out.print("Telefono: ");
         String telefono = scanner.nextLine();
 
         boolean exito = servicio.registrarNuevoCliente(username, password, dni, nombre, direccion, email, telefono);
@@ -351,7 +390,7 @@ public class Sixt {
         boolean exito = servicio.marcarReservaComoEntregada(idReserva);
 
         if (exito) {
-            System.out.println("Reserva marcada como entregada. Los vehículos ya están disponibles en la oficina destino.");
+            System.out.println("Reserva marcada como entregada. Los vehiculos ya estan disponibles en la oficina destino.");
         } else {
             System.out.println("Error: la reserva no existe o ya estaba entregada.");
         }
@@ -362,7 +401,7 @@ public class Sixt {
         List<modelos.Reserva> misReservas = servicio.getReservasPorCliente(cliente.getId());
 
         if (misReservas.isEmpty()) {
-            System.out.println("No tenés reservas registradas.");
+            System.out.println("No tenes reservas registradas.");
         } else {
             System.out.println("--- TUS RESERVAS ---");
             for (modelos.Reserva r : misReservas) {
@@ -373,7 +412,7 @@ public class Sixt {
 
     static void verMiInfo(dto.UsuarioDTO usuario) {
         dto.ClienteDTO cliente = (dto.ClienteDTO) usuario;
-        System.out.println("--- TU INFORMACIÓN ---");
+        System.out.println("--- TU INFORMACION ---");
         System.out.println("ID: " + cliente.getId());
         System.out.println("Usuario: " + cliente.getUsername());
         System.out.println("Nombre: " + cliente.getNombre());
@@ -384,11 +423,12 @@ public class Sixt {
         System.out.println("1. Vendedor");
         System.out.println("2. Administrador");
         System.out.print("Tipo de usuario: ");
-        int tipoOpcion = Integer.parseInt(scanner.nextLine());
+        int tipoOpcion = pedirEntero(scanner, "Elegi una opcion: ");
+        //int tipoOpcion = Integer.parseInt(scanner.nextLine());
 
         System.out.print("Nombre de usuario: ");
         String username = scanner.nextLine();
-        System.out.print("Contraseña: ");
+        System.out.print("Password: ");
         String password = scanner.nextLine();
 
         boolean exito;
@@ -408,9 +448,9 @@ public class Sixt {
     static void listarVehiculos(servicios.SixtServicio servicio) {
         List<modelos.Vehiculo> vehiculos = servicio.getVehiculos();
         if (vehiculos.isEmpty()) {
-            System.out.println("No hay vehículos cargados.");
+            System.out.println("No hay vehiculos cargados.");
         } else {
-            System.out.println("--- VEHÍCULOS ---");
+            System.out.println("--- VEHICULOS ---");
             for (modelos.Vehiculo v : vehiculos) {
                 System.out.println(v);
             }
@@ -437,17 +477,40 @@ public class Sixt {
             System.out.print("Fecha de fin (DD/MM/YYYY): ");
             fechaFin = LocalDate.parse(scanner.nextLine(), FORMATO_FECHA);
         } catch (Exception e) {
-            System.out.println("Fecha inválida. Usá el formato DD/MM/YYYY.");
+            System.out.println("Fecha invalida. Usa el formato DD/MM/YYYY.");
             return;
         }
 
         List<modelos.Vehiculo> disponibles = servicio.getVehiculosDisponibles(fechaInicio, fechaFin);
         if (disponibles.isEmpty()) {
-            System.out.println("No hay vehículos disponibles para ese rango de fechas.");
+            System.out.println("No hay vehiculos disponibles para ese rango de fechas.");
         } else {
-            System.out.println("--- VEHÍCULOS DISPONIBLES ---");
+            System.out.println("--- VEHICULOS DISPONIBLES ---");
             for (modelos.Vehiculo v : disponibles) {
                 System.out.println(v);
+            }
+        }
+    }
+
+    //para problemas con el teclado
+    static int pedirEntero(Scanner scanner, String mensaje) {
+        while (true) {
+            try {
+                System.out.print(mensaje);
+                return Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Error: Por favor ingresa un numero entero valido.");
+            }
+        }
+    }
+
+    static double pedirDouble(Scanner scanner, String mensaje) {
+        while (true) {
+            try {
+                System.out.print(mensaje);
+                return Double.parseDouble(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("ERROR: Por favor ingresa un numero decimal valido (Ej: 10.5).");
             }
         }
     }

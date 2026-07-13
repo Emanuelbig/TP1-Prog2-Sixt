@@ -5,38 +5,74 @@ left to right direction
 
 package modelos {
     abstract class Usuario {
+      # id: int
       # username: String
       # password: String
       + {abstract} getRol(): String
       + {abstract} toCSV(): String
     }
-    class Administrador extends Usuario {}
-    class Vendedor extends Usuario {}
+    class Administrador extends Usuario {
+      + getRol(): String
+      + toCSV(): String
+      + toString(): String
+    }
+    class Vendedor extends Usuario {
+      + getRol(): String
+      + toCSV(): String
+      + toString(): String
+    }
     class Cliente extends Usuario {
-      - codigoUnico: String
       - dni: String
       - nombre: String
+      - direccion: String
+      - email: String
+      - telefono: String
+      + getRol(): String
+      + toCSV(): String
+      + toString(): String      
     }
 
     abstract class Vehiculo {
+      # id: int
       # patente: String
+      # marca: String
+      # modelo: String
+      # color: String
       # precioBaseDiario: double
+      # oficinaActual: Oficina
       + {abstract} calcularAlquiler(dias: int): double
+      + {abstract} toCSV(): String
     }
-    class Auto extends Vehiculo {}
+    class Auto extends Vehiculo {
+      + toCSV(): String
+      + toString(): String  
+      + calcularAlquiler(dias : int): double
+    }
     class Camioneta extends Vehiculo {
       - recargoCapacidad: double
+      + calcularAlquiler(dias: int): double
+      + toCSV(): String
+      + toString(): String
     }
 
     class Oficina {
-      - idOficina: String
+      - idOficina: int
+      - nombre: String
       - direccion: String
+      + toCSV(): String
+      + toString(): String
     }
     class Reserva {
-      - idReserva: String
+      - idReserva: int
+      - oficinaOrigen: Oficina
+      - oficinaDestino: Oficina
       - fechaInicio: LocalDate
+      - fechaFin: LocalDate
+      - litrosGasolinaInicial
       - precioTotal: double
       - entregado: boolean
+      + toCSV(): String
+      + toString(): String
     }
     
     Vendedor "1" -- "0..*" Reserva : realiza >
@@ -52,9 +88,9 @@ package dto {
       + getRol()
     }
     class ClienteDTO extends UsuarioDTO {
+      - id: int
       - dni: String
       - nombre: String
-      - codigoUnico: String
     }
     class VehiculoDTO {
       - patente: String
@@ -74,39 +110,103 @@ package dto {
 package dao {
     class SixtDAO {
       - RUTA_USUARIOS: Path
+      - RUTA_VEHICULOS: Path
       - RUTA_RESERVAS: Path
-      + guardarModelos(...)
-      + leerUsuariosModelos(): List<Usuario>
-      + leerReservasModelos(): List<Reserva>
+      - RUTA_OFICINAS: Path
+
+      + guardarUsuarios(usuarios: List<Usuario>)
+      + leerUsuarios(): List<Usuario>
+      + siguienteIdUsuario(usuarios: List<Usuario>): int
+
+      + guardarOficinas(oficinas: List<Oficina>)
+      + leerOficinas(): List<Oficina>
+      + siguienteIdOficina(oficinas: List<Oficina>): int
+
+      + guardarVehiculos(vehiculos: List<Vehiculo>)
+      + leerVehiculos(oficinas: List<Oficina>): List<Vehiculo>
+      + siguienteIdVehiculo(vehiculos: List<Vehiculo>): int
+
+      + guardarReservas(reservas: List<Reserva>)
+      + leerReservas(usuarios: List<Usuario>, vehiculos: List<Vehiculo>, oficinas: List<Oficina>): List<Reserva>
+      + siguienteIdReserva(reservas: List<Reserva>): int
+
+      - buscarOficinaPorId(oficinas: List<Oficina>, id: int): Oficina
+      - buscarVehiculoPorId(vehiculos: List<Vehiculo>, id: int): Vehiculo
+      - buscarClientePorId(usuarios: List<Usuario>, id: int): Cliente
     }
 }
 
 package servicios {
-    class SixtService {
+    class SixtServicio {
       - dao: SixtDAO
+      - authServicios: AuthServicios
       - usuarios: List<Usuario>
+      - oficinas: List<Oficina>
+      - vehiculos: List<Vehiculo>
       - reservas: List<Reserva>
-      + login(user, pass): UsuarioDTO
-      + crearReserva(r: ReservaDTO): void
-      + listarReservas(): List<ReservaDTO>
-      - mapearModeloADto(m: Modelo): DTO
-      - mapearDtoAModelo(d: DTO): Modelo
+
+      + SixtServicio()
+      - cargarDatosEnMemoria()
+      
+      + iniciarSesion(user: String, pass: String): UsuarioDTO
+      + registrarNuevoCliente(...): boolean
+      + registrarNuevaOficina(nombre: String, direccion: String): boolean
+      + registrarNuevoVehiculo(...): boolean
+      + registrarNuevaReserva(...): boolean
+      + registrarNuevoVendedor(user: String, pass: String): boolean
+      + registrarNuevoAdministrador(user: String, pass: String): boolean
+      
+      + marcarReservaComoEntregada(idReserva: int): boolean
+      
+      + getOficinas(): List<Oficina>
+      + getVehiculos(): List<Vehiculo>
+      + getReservas(): List<Reserva>
+      + getVehiculosDisponibles(inicio: LocalDate, fin: LocalDate): List<Vehiculo>
+      + getReservasPendientes(): List<Reserva>
+      + getReservasPorCliente(idCliente: int): List<Reserva>
+    }
+    class AuthServicios {
+      + login(username: String, password: String, usuariosEnMemoria: List<Usuario>): UsuarioDTO
+      - mapeoUsuarioDto(u: Usuario): UsuarioDTO
     }
 }
 
 package main {
-    class Principal {
-      + main(args: String[])
+    class Sixt {
+      ~ {static} FORMATO_FECHA: DateTimeFormatter
+
+      + {static} main(args: String[])
+      
+      ~ {static} menuAdmin(scanner: Scanner, servicio: SixtServicio)
+      ~ {static} menuVendedor(scanner: Scanner, servicio: SixtServicio)
+      ~ {static} menuCliente(scanner: Scanner, servicio: SixtServicio, usuario: UsuarioDTO)
+      
+      ~ {static} agregarOficina(...)
+      ~ {static} agregarVehiculo(...)
+      ~ {static} agregarReserva(...)
+      ~ {static} agregarCliente(...)
+      ~ {static} agregarUsuario(...)
+      
+      ~ {static} marcarEntrega(...)
+      ~ {static} verMisReservas(...)
+      ~ {static} verMiInfo(...)
+      ~ {static} listarVehiculos(...)
+      ~ {static} listarReservas(...)
+      ~ {static} verDisponibles(...)
+      
+      ~ {static} pedirEntero(scanner: Scanner, mensaje: String): int
+      ~ {static} pedirDouble(scanner: Scanner, mensaje: String): double
+      ~ {static} pausar(scanner: Scanner)
     }
 }
 
 ' --- DEPENDENCIAS (El flujo de la información) ---
-Principal ..> SixtService : usa >
-Principal ..> dto : usa \nsolo DTOs >
+Sixt ..> SixtServicio : usa >
+Sixt ..> dto : usa \nsolo DTOs >
 
-SixtService ..> SixtDAO : usa >
-SixtService ..> modelos : " Lee/Escribe \n Modelos"
-SixtService ..> dto : " Recibe/Devuelve \n DTOs"
+SixtServicio ..> SixtDAO : usa >
+SixtServicio ..> modelos : " Lee/Escribe \n Modelos"
+SixtServicio ..> dto : " Recibe/Devuelve \n DTOs"
 
 SixtDAO ..> modelos : persiste >
 @enduml

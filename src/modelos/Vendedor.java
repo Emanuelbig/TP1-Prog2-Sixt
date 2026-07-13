@@ -14,7 +14,7 @@ public class Vendedor extends Usuario {
     @Override
     public String toCSV() {
         // Formato: id;ROL;user;pass
-        return id + ";" + getRol() + ";" + username + ";" + password;
+        return id + "," + getRol() + "," + username + "," + password;
     }
 
     @Override

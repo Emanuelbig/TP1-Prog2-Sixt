@@ -14,7 +14,7 @@ public class Auto extends Vehiculo {
     @Override
     public String toCSV() {
         // Formato: id;TIPO;patente;marca;modelo;color;precio;idOficina
-        return id + ";AUTO;" + patente + ";" + marca + ";" + modelo + ";" + color + ";" + precioBaseDiario + ";" + oficinaActual.getIdOficina();
+        return id + ",AUTO," + patente + "," + marca + "," + modelo + "," + color + "," + precioBaseDiario + "," + oficinaActual.getIdOficina();
     }
 
     @Override

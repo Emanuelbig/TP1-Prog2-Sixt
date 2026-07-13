@@ -9,12 +9,19 @@ import java.util.ArrayList;
 import java.util.List;
 import modelos.*;
 
+
+/**
+*
+* * Grupo H, Programacion 2, Turno Noche, Año 2026
+* 
+**/
+
 public class SixtDAO {
 
-    private final Path RUTA_USUARIOS = Paths.get("usuarios.txt");
-    private final Path RUTA_VEHICULOS = Paths.get("vehiculos.txt");
-    private final Path RUTA_RESERVAS = Paths.get("reservas.txt");
-    private final Path RUTA_OFICINAS = Paths.get("oficinas.txt");
+    private final Path RUTA_USUARIOS = Paths.get("data/usuarios.txt");
+    private final Path RUTA_VEHICULOS = Paths.get("data/vehiculos.txt");
+    private final Path RUTA_RESERVAS = Paths.get("data/reservas.txt");
+    private final Path RUTA_OFICINAS = Paths.get("data/oficinas.txt");
 
     // ================= SECCIÓN USUARIOS =================
 
@@ -26,7 +33,7 @@ public class SixtDAO {
         try {
             Files.write(RUTA_USUARIOS, lineas);
         } catch (IOException e) {
-            System.out.println("Error crítico al guardar los usuarios: " + e.getMessage());
+            System.out.println("Error critico al guardar los usuarios: " + e.getMessage());
         }
     }
 
@@ -39,7 +46,7 @@ public class SixtDAO {
             List<String> lineas = Files.readAllLines(RUTA_USUARIOS);
             for (String linea : lineas) {
                 // Formato: id;ROL;user;pass;[codigo;dni;nombre;direccion;email;telefono]
-                String[] datos = linea.split(";");
+                String[] datos = linea.split(",");
 
                 int id = Integer.parseInt(datos[0]);
                 String rol = datos[1];
@@ -53,11 +60,11 @@ public class SixtDAO {
                     usuarios.add(new Vendedor(id, username, password));
 
                 } else if (rol.equals("CLIENTE")) {
-                    String dni = datos[5];
-                    String nombre = datos[6];
-                    String direccion = datos[7];
-                    String email = datos[8];
-                    String telefono = datos[9];
+                    String dni = datos[4];
+                    String nombre = datos[5];
+                    String direccion = datos[6];
+                    String email = datos[7];
+                    String telefono = datos[8];
 
                     usuarios.add(new Cliente(id, username, password, dni, nombre, direccion, email, telefono));
                 }
@@ -99,7 +106,7 @@ public class SixtDAO {
             List<String> lineas = Files.readAllLines(RUTA_OFICINAS);
             for (String linea : lineas) {
                 // Formato: id;nombre;direccion
-                String[] d = linea.split(";");
+                String[] d = linea.split(",");
                 int id = Integer.parseInt(d[0]);
                 oficinas.add(new Oficina(id, d[1], d[2]));
             }
@@ -128,7 +135,7 @@ public class SixtDAO {
         try {
             Files.write(RUTA_VEHICULOS, lineas);
         } catch (IOException e) {
-            System.out.println("Error al guardar vehículos: " + e.getMessage());
+            System.out.println("Error al guardar vehiculos: " + e.getMessage());
         }
     }
 
@@ -141,7 +148,7 @@ public class SixtDAO {
             List<String> lineas = Files.readAllLines(RUTA_VEHICULOS);
             for (String linea : lineas) {
                 // Formato: id;TIPO;patente;marca;modelo;color;precio;idOficina;[recargo]
-                String[] d = linea.split(";");
+                String[] d = linea.split(",");
 
                 int id = Integer.parseInt(d[0]);
                 String tipo = d[1];
@@ -161,7 +168,7 @@ public class SixtDAO {
                 }
             }
         } catch (IOException e) {
-            System.out.println("Error al leer vehículos: " + e.getMessage());
+            System.out.println("Error al leer vehiculos: " + e.getMessage());
         }
         return vehiculos;
     }
@@ -198,7 +205,7 @@ public class SixtDAO {
             List<String> lineas = Files.readAllLines(RUTA_RESERVAS);
             for (String linea : lineas) {
                 // Formato: id;idCliente;idsVehiculos;idOficinaOrigen;idOficinaDestino;fechaInicio;fechaFin;litros;precioTotal;entregado
-                String[] d = linea.split(";");
+                String[] d = linea.split(",");
 
                 int idReserva = Integer.parseInt(d[0]);
                 int idCliente = Integer.parseInt(d[1]);

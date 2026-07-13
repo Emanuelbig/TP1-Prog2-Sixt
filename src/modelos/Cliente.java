@@ -67,7 +67,7 @@ public class Cliente extends Usuario {
     @Override
     public String toCSV() {
         // Formato: id;ROL;user;pass;dni;nombre;direccion;email;telefono
-        return id + ";" + getRol() + ";" + username + ";" + password + ";" + dni + ";" + nombre + ";" + direccion + ";" + email + ";" + telefono;
+        return id + "," + getRol() + "," + username + "," + password + "," + dni + "," + nombre + "," + direccion + "," + email + "," + telefono;
     }
 
     @Override

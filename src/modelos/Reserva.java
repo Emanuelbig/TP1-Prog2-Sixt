@@ -119,15 +119,15 @@ public class Reserva {
         }
 
         // Formato: id;idCliente;idsVehiculos;idOficinaOrigen;idOficinaDestino;fechaInicio;fechaFin;litros;precioTotal;entregado
-        return idReserva + ";"
-                + clienteTitular.getId() + ";"
-                + idsVehiculos.toString() + ";"
-                + oficinaOrigen.getIdOficina() + ";"
-                + oficinaDestino.getIdOficina() + ";"
-                + fechaInicio.toString() + ";"
-                + fechaFin.toString() + ";"
-                + litrosGasolinaInicial + ";"
-                + precioTotal + ";"
+        return idReserva + ","
+                + clienteTitular.getId() + ","
+                + idsVehiculos.toString() + ","
+                + oficinaOrigen.getIdOficina() + ","
+                + oficinaDestino.getIdOficina() + ","
+                + fechaInicio.toString() + ","
+                + fechaFin.toString() + ","
+                + litrosGasolinaInicial + ","
+                + precioTotal + ","
                 + entregado;
     }
 

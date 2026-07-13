@@ -36,7 +36,7 @@ public class Oficina {
     // Nota: no hay setIdOficina(), mismo criterio que en Usuario y Vehiculo.
 
     public String toCSV() {
-        return idOficina + ";" + nombre + ";" + direccion;
+        return idOficina + "," + nombre + "," + direccion;
     }
 
     @Override

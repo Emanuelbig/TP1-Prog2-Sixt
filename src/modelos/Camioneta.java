@@ -25,7 +25,7 @@ public class Camioneta extends Vehiculo {
     @Override
     public String toCSV() {
         // Formato: id;TIPO;patente;marca;modelo;color;precio;idOficina;recargo
-        return id + ";CAMIONETA;" + patente + ";" + marca + ";" + modelo + ";" + color + ";" + precioBaseDiario + ";" + oficinaActual.getIdOficina() + ";" + recargoCapacidad;
+        return id + ",CAMIONETA," + patente + "," + marca + "," + modelo + "," + color + "," + precioBaseDiario + "," + oficinaActual.getIdOficina() + "," + recargoCapacidad;
     }
 
     @Override

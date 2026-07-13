@@ -13,7 +13,7 @@ public class Administrador extends Usuario {
 
     @Override
     public String toCSV() {
-        return id + ";" + getRol() + ";" + username + ";" + password;
+        return id + "," + getRol() + "," + username + "," + password;
     }
 
     @Override
