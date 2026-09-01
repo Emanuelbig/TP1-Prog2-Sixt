@@ -50,7 +50,8 @@ public class SixtServicio {
         this.usuarios = dao.leerUsuarios();
         if (this.usuarios.isEmpty()) {
             int idAdmin = dao.siguienteIdUsuario(this.usuarios);
-            modelos.Administrador adminRoot = new modelos.Administrador(idAdmin, "admin", "1234");
+            modelos.Administrador adminRoot = new modelos.Administrador(idAdmin, "admin", "1234",
+                    "00000000", "Administrador inicial", "Casa central", "admin@sixt.com.ar", "1100000000");
             this.usuarios.add(adminRoot);
             dao.guardarUsuarios(this.usuarios);
             System.out.println("Sistema inicializado: Se ha creado el usuario 'admin' con clave '1234'.");
@@ -63,6 +64,22 @@ public class SixtServicio {
     //metodo para iniciar sesion en el main
     public UsuarioDTO iniciarSesion(String username, String password) {
         return AuthServicios.login(username, password, this.usuarios);
+    }
+
+    public boolean registrarNuevoVendedor(String username, String password, String dni,
+            String nombre, String direccion, String email, String telefono) {
+        for (Usuario u : usuarios) {
+            if (u.getUsername().equalsIgnoreCase(username)) {
+                return false;
+            }
+        }
+
+        int id = dao.siguienteIdUsuario(this.usuarios);
+        Vendedor nuevoVendedor = new Vendedor(id, username, password, dni, nombre, direccion, email, telefono);
+
+        this.usuarios.add(nuevoVendedor);
+        dao.guardarUsuarios(this.usuarios);
+        return true;
     }
 
     //metodo para registrar un nuevo cliente
@@ -282,7 +299,8 @@ public class SixtServicio {
         return resultado;
     }
 
-    public boolean registrarNuevoVendedor(String username, String password) {
+    public boolean registrarNuevoAdministrador(String username, String password, String dni,
+            String nombre, String direccion, String email, String telefono) {
         for (Usuario u : usuarios) {
             if (u.getUsername().equalsIgnoreCase(username)) {
                 return false;
@@ -290,32 +308,18 @@ public class SixtServicio {
         }
 
         int id = dao.siguienteIdUsuario(this.usuarios);
-        Vendedor nuevoVendedor = new Vendedor(id, username, password);
-
-        this.usuarios.add(nuevoVendedor);
-        dao.guardarUsuarios(this.usuarios);
-        return true;
-    }
-
-    public boolean registrarNuevoAdministrador(String username, String password) {
-        for (Usuario u : usuarios) {
-            if (u.getUsername().equalsIgnoreCase(username)) {
-                return false;
-            }
-        }
-
-        int id = dao.siguienteIdUsuario(this.usuarios);
-        Administrador nuevoAdmin = new Administrador(id, username, password);
+        Administrador nuevoAdmin = new Administrador(id, username, password, dni, nombre, direccion, email, telefono);
 
         this.usuarios.add(nuevoAdmin);
         dao.guardarUsuarios(this.usuarios);
         return true;
     }
-    public List<Vehiculo> getVehiculos() {
-    return vehiculos;
-}
 
-public List<Reserva> getReservas() {
-    return reservas;
-}
+    public List<Vehiculo> getVehiculos() {
+        return vehiculos;
+    }
+
+    public List<Reserva> getReservas() {
+        return reservas;
+    }
 }

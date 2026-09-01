@@ -2,17 +2,30 @@ package modelos;
 
 public abstract class Usuario {
 
-    protected int id;
-    protected String username;
-    protected String password;
+    // private, no protected: las hijas ya no necesitan tocarlos directo,
+    // porque los metodos que los usan ahora viven aca.
+    private int id;
+    private String username;
+    private String password;
+    private String dni;
+    private String nombre;
+    private String direccion;
+    private String email;
+    private String telefono;
 
-    public Usuario(int id, String username, String password) {
+    //constructor
+    public Usuario(int id, String username, String password, String dni,
+            String nombre, String direccion, String email, String telefono) {
         this.id = id;
         this.username = username;
         this.password = password;
+        this.dni = dni;
+        this.nombre = nombre;
+        this.direccion = direccion;
+        this.email = email;
+        this.telefono = telefono;
     }
 
-    // Getters
     public int getId() {
         return id;
     }
@@ -25,7 +38,26 @@ public abstract class Usuario {
         return password;
     }
 
-    // Setters
+    public String getDni() {
+        return dni;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -33,9 +65,44 @@ public abstract class Usuario {
     public void setPassword(String password) {
         this.password = password;
     }
-    // Nota: no hay setId() a propósito. El id se define una sola vez al crear
-    // el objeto y no debería cambiar nunca (mismo criterio que una PK en una tabla).
 
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+    // Sin setId(): el id se define una sola vez, como una PK.
+
+    /**
+     * Lo unico que cambia segun el tipo de usuario.
+     */
     public abstract String getRol();
-    public abstract String toCSV();
+
+    /**
+     * Ahora es CONCRETO y esta escrito UNA sola vez. Antes las tres hijas lo
+     * repetian, y en Administrador y Vendedor era identico.
+     */
+    public String toCSV() {
+        return id + "," + getRol() + "," + username + "," + password + ","
+                + dni + "," + nombre + "," + direccion + "," + email + "," + telefono;
+    }
+
+    @Override
+    public String toString() {
+        return "#" + id + " " + nombre + " | " + getRol() + " | DNI: " + dni;
+    }
 }

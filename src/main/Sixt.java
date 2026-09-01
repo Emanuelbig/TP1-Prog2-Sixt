@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * Menu del programa
- * 
+ *
  * Grupo H, Programacion 2, Turno Noche, Año 2026
  *
  */
@@ -298,18 +298,20 @@ public class Sixt {
         boolean seguirAgregando = true;
         while (seguirAgregando) {
             int idVehiculo = pedirEntero(scanner, "ID de vehiculo a agregar: ");
-            
+
             //Verificamos que el ID tipeado exista realmente en la lista de disponibles
             boolean existe = false;
             for (modelos.Vehiculo v : disponibles) {
-                if (v.getId() == idVehiculo) existe = true;
+                if (v.getId() == idVehiculo) {
+                    existe = true;
+                }
             }
-            
+
             if (!existe) {
                 System.out.println("--> ERROR: El ID ingresado no esta en la lista de disponibles.");
                 continue; // Lo hace volver a pedir el ID
             }
-            
+
             idsElegidos.add(idVehiculo);
 
             //Obligamos a que la respuesta sea estrictamente 's' o 'n'
@@ -419,23 +421,31 @@ public class Sixt {
         System.out.println("DNI: " + cliente.getDni());
     }
 
-    static void agregarUsuario(Scanner scanner, servicios.SixtServicio servicio) {
+        static void agregarUsuario(Scanner scanner, servicios.SixtServicio servicio) {
         System.out.println("1. Vendedor");
         System.out.println("2. Administrador");
-        System.out.print("Tipo de usuario: ");
-        int tipoOpcion = pedirEntero(scanner, "Elegi una opcion: ");
-        //int tipoOpcion = Integer.parseInt(scanner.nextLine());
+        int tipoOpcion = pedirEntero(scanner, "Tipo de usuario: ");
 
         System.out.print("Nombre de usuario: ");
         String username = scanner.nextLine();
         System.out.print("Password: ");
         String password = scanner.nextLine();
+        System.out.print("DNI: ");
+        String dni = scanner.nextLine();
+        System.out.print("Nombre completo: ");
+        String nombre = scanner.nextLine();
+        System.out.print("Direccion: ");
+        String direccion = scanner.nextLine();
+        System.out.print("Email: ");
+        String email = scanner.nextLine();
+        System.out.print("Telefono: ");
+        String telefono = scanner.nextLine();
 
         boolean exito;
         if (tipoOpcion == 1) {
-            exito = servicio.registrarNuevoVendedor(username, password);
+            exito = servicio.registrarNuevoVendedor(username, password, dni, nombre, direccion, email, telefono);
         } else {
-            exito = servicio.registrarNuevoAdministrador(username, password);
+            exito = servicio.registrarNuevoAdministrador(username, password, dni, nombre, direccion, email, telefono);
         }
 
         if (exito) {

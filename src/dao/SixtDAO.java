@@ -9,13 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 import modelos.*;
 
-
 /**
-*
-* * Grupo H, Programacion 2, Turno Noche, Año 2026
-* 
-**/
-
+ *
+ * * Grupo H, Programacion 2, Turno Noche, Año 2026
+ *
+ *
+ */
 public class SixtDAO {
 
     private final Path RUTA_USUARIOS = Paths.get("data/usuarios.txt");
@@ -24,7 +23,6 @@ public class SixtDAO {
     private final Path RUTA_OFICINAS = Paths.get("data/oficinas.txt");
 
     // ================= SECCIÓN USUARIOS =================
-
     public void guardarUsuarios(List<Usuario> usuarios) {
         List<String> lineas = new ArrayList<>();
         for (Usuario u : usuarios) {
@@ -37,7 +35,7 @@ public class SixtDAO {
         }
     }
 
-    public List<Usuario> leerUsuarios() {
+        public List<Usuario> leerUsuarios() {
         List<Usuario> usuarios = new ArrayList<>();
         if (!Files.exists(RUTA_USUARIOS)) {
             return usuarios;
@@ -45,27 +43,23 @@ public class SixtDAO {
         try {
             List<String> lineas = Files.readAllLines(RUTA_USUARIOS);
             for (String linea : lineas) {
-                // Formato: id;ROL;user;pass;[codigo;dni;nombre;direccion;email;telefono]
                 String[] datos = linea.split(",");
 
                 int id = Integer.parseInt(datos[0]);
                 String rol = datos[1];
                 String username = datos[2];
                 String password = datos[3];
+                String dni = datos[4];
+                String nombre = datos[5];
+                String direccion = datos[6];
+                String email = datos[7];
+                String telefono = datos[8];
 
                 if (rol.equals("ADMIN")) {
-                    usuarios.add(new Administrador(id, username, password));
-
+                    usuarios.add(new Administrador(id, username, password, dni, nombre, direccion, email, telefono));
                 } else if (rol.equals("VENDEDOR")) {
-                    usuarios.add(new Vendedor(id, username, password));
-
+                    usuarios.add(new Vendedor(id, username, password, dni, nombre, direccion, email, telefono));
                 } else if (rol.equals("CLIENTE")) {
-                    String dni = datos[4];
-                    String nombre = datos[5];
-                    String direccion = datos[6];
-                    String email = datos[7];
-                    String telefono = datos[8];
-
                     usuarios.add(new Cliente(id, username, password, dni, nombre, direccion, email, telefono));
                 }
             }
@@ -78,13 +72,14 @@ public class SixtDAO {
     public int siguienteIdUsuario(List<Usuario> usuarios) {
         int max = 0;
         for (Usuario u : usuarios) {
-            if (u.getId() > max) max = u.getId();
+            if (u.getId() > max) {
+                max = u.getId();
+            }
         }
         return max + 1;
     }
 
     // ================= SECCIÓN OFICINAS =================
-
     public void guardarOficinas(List<Oficina> oficinas) {
         List<String> lineas = new ArrayList<>();
         for (Oficina o : oficinas) {
@@ -119,14 +114,15 @@ public class SixtDAO {
     public int siguienteIdOficina(List<Oficina> oficinas) {
         int max = 0;
         for (Oficina o : oficinas) {
-            if (o.getIdOficina() > max) max = o.getIdOficina();
+            if (o.getIdOficina() > max) {
+                max = o.getIdOficina();
+            }
         }
         return max + 1;
     }
 
     // ================= SECCIÓN VEHÍCULOS =================
     // Necesita la lista de oficinas ya cargada, para reconstruir oficinaActual
-
     public void guardarVehiculos(List<Vehiculo> vehiculos) {
         List<String> lineas = new ArrayList<>();
         for (Vehiculo v : vehiculos) {
@@ -176,14 +172,15 @@ public class SixtDAO {
     public int siguienteIdVehiculo(List<Vehiculo> vehiculos) {
         int max = 0;
         for (Vehiculo v : vehiculos) {
-            if (v.getId() > max) max = v.getId();
+            if (v.getId() > max) {
+                max = v.getId();
+            }
         }
         return max + 1;
     }
 
     // ================= SECCIÓN RESERVAS =================
     // Necesita usuarios, vehículos y oficinas ya cargados, para reconstruir referencias
-
     public void guardarReservas(List<Reserva> reservas) {
         List<String> lineas = new ArrayList<>();
         for (Reserva r : reservas) {
@@ -214,7 +211,9 @@ public class SixtDAO {
                 List<Vehiculo> vehiculosReserva = new ArrayList<>();
                 for (String idTexto : d[2].split(",")) {
                     Vehiculo v = buscarVehiculoPorId(vehiculos, Integer.parseInt(idTexto));
-                    if (v != null) vehiculosReserva.add(v);
+                    if (v != null) {
+                        vehiculosReserva.add(v);
+                    }
                 }
 
                 int idOficinaOrigen = Integer.parseInt(d[3]);
@@ -240,30 +239,37 @@ public class SixtDAO {
     public int siguienteIdReserva(List<Reserva> reservas) {
         int max = 0;
         for (Reserva r : reservas) {
-            if (r.getIdReserva() > max) max = r.getIdReserva();
+            if (r.getIdReserva() > max) {
+                max = r.getIdReserva();
+            }
         }
         return max + 1;
     }
 
     // ================= MÉTODOS AUXILIARES DE BÚSQUEDA =================
-
     private Oficina buscarOficinaPorId(List<Oficina> oficinas, int id) {
         for (Oficina o : oficinas) {
-            if (o.getIdOficina() == id) return o;
+            if (o.getIdOficina() == id) {
+                return o;
+            }
         }
         return null;
     }
 
     private Vehiculo buscarVehiculoPorId(List<Vehiculo> vehiculos, int id) {
         for (Vehiculo v : vehiculos) {
-            if (v.getId() == id) return v;
+            if (v.getId() == id) {
+                return v;
+            }
         }
         return null;
     }
 
     private Cliente buscarClientePorId(List<Usuario> usuarios, int id) {
         for (Usuario u : usuarios) {
-            if (u instanceof Cliente c && c.getId() == id) return c;
+            if (u instanceof Cliente c && c.getId() == id) {
+                return c;
+            }
         }
         return null;
     }
