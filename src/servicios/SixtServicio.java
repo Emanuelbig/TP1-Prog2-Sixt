@@ -5,7 +5,7 @@
 package servicios;
 
 import dao.OficinaDAO;
-import dao.SixtDAO;
+import dao.ReservaDAO;
 import dao.UsuarioDAO;
 import dao.VehiculoDAO;
 import dto.UsuarioDTO;
@@ -29,10 +29,11 @@ import modelos.Vendedor;
 public class SixtServicio {
 
     // Declaramos conexiones a las otras capas
-    private final SixtDAO dao;
     private final UsuarioDAO usuarioDao;
     private final OficinaDAO oficinaDAO;
     private VehiculoDAO vehiculoDAO;
+    private ReservaDAO reservaDAO;
+    
     private final AuthServicios AuthServicios;
 
     // Lista que esta en la ram mientras usamos el programa
@@ -42,7 +43,6 @@ public class SixtServicio {
     private List<Reserva> reservas;
 
     public SixtServicio() {
-        this.dao = new SixtDAO();
         this.usuarioDao = new UsuarioDAO();
         this.oficinaDAO = new OficinaDAO();
         //No inicializar en el constructor, sino en cargarDatos...
@@ -56,7 +56,8 @@ public class SixtServicio {
     //aca esta el metodo que carga desarrollado
     private void cargarDatosEnMemoria() {
         this.oficinas = oficinaDAO.leer();
-        this.vehiculoDAO= new VehiculoDAO(this.oficinas);
+        this.vehiculoDAO = new VehiculoDAO(this.oficinas);
+        this.reservaDAO = new ReservaDAO(this.usuarios, this.vehiculos, this.oficinas);
         this.usuarios = usuarioDao.leer();
         if (this.usuarios.isEmpty()) {
             int idAdmin = usuarioDao.siguienteId(this.usuarios);
@@ -68,7 +69,7 @@ public class SixtServicio {
         }
 
         this.vehiculos = vehiculoDAO.leer();
-        this.reservas = dao.leerReservas(usuarios, vehiculos, oficinas);
+        this.reservas = reservaDAO.leerReservas(usuarios, vehiculos, oficinas);
     }
 
     //metodo para iniciar sesion en el main
@@ -255,12 +256,12 @@ public class SixtServicio {
             precioTotal += v.calcularAlquiler((int) dias);
         }
 
-        int id = dao.siguienteIdReserva(this.reservas);
+        int id = reservaDAO.siguienteId(this.reservas);
         Reserva nuevaReserva = new Reserva(id, cliente, vehiculosElegidos, oficinaOrigen, oficinaDestino,
                 fechaInicio, fechaFin, litrosGasolinaInicial, precioTotal, false);
 
         this.reservas.add(nuevaReserva);
-        dao.guardarReservas(this.reservas);
+        reservaDAO.guardar(this.reservas);
         return true;
     }
 
@@ -284,7 +285,7 @@ public class SixtServicio {
             v.setOficinaActual(reservaEncontrada.getOficinaDestino());
         }
 
-        dao.guardarReservas(this.reservas);
+        reservaDAO.guardar(this.reservas);
         vehiculoDAO.guardar(this.vehiculos); // persistimos la nueva ubicación de los vehículos
         return true;
     }
