@@ -4,7 +4,10 @@
  */
 package servicios;
 
+import dao.OficinaDAO;
 import dao.SixtDAO;
+import dao.UsuarioDAO;
+import dao.VehiculoDAO;
 import dto.UsuarioDTO;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -27,6 +30,9 @@ public class SixtServicio {
 
     // Declaramos conexiones a las otras capas
     private final SixtDAO dao;
+    private final UsuarioDAO usuarioDao;
+    private final OficinaDAO oficinaDAO;
+    private VehiculoDAO vehiculoDAO;
     private final AuthServicios AuthServicios;
 
     // Lista que esta en la ram mientras usamos el programa
@@ -37,6 +43,10 @@ public class SixtServicio {
 
     public SixtServicio() {
         this.dao = new SixtDAO();
+        this.usuarioDao = new UsuarioDAO();
+        this.oficinaDAO = new OficinaDAO();
+        //No inicializar en el constructor, sino en cargarDatos...
+        //this.vehiculoDAO = new VehiculoDAO();
         this.AuthServicios = new AuthServicios();
 
         // para cargar el txt en la memoria
@@ -45,19 +55,19 @@ public class SixtServicio {
 
     //aca esta el metodo que carga desarrollado
     private void cargarDatosEnMemoria() {
-        this.oficinas = dao.leerOficinas();
-
-        this.usuarios = dao.leerUsuarios();
+        this.oficinas = oficinaDAO.leer();
+        this.vehiculoDAO= new VehiculoDAO(this.oficinas);
+        this.usuarios = usuarioDao.leer();
         if (this.usuarios.isEmpty()) {
-            int idAdmin = dao.siguienteIdUsuario(this.usuarios);
+            int idAdmin = usuarioDao.siguienteId(this.usuarios);
             modelos.Administrador adminRoot = new modelos.Administrador(idAdmin, "admin", "1234",
                     "00000000", "Administrador inicial", "Casa central", "admin@sixt.com.ar", "1100000000");
             this.usuarios.add(adminRoot);
-            dao.guardarUsuarios(this.usuarios);
+            usuarioDao.guardar(this.usuarios);
             System.out.println("Sistema inicializado: Se ha creado el usuario 'admin' con clave '1234'.");
         }
 
-        this.vehiculos = dao.leerVehiculos(oficinas);
+        this.vehiculos = vehiculoDAO.leer();
         this.reservas = dao.leerReservas(usuarios, vehiculos, oficinas);
     }
 
@@ -74,11 +84,11 @@ public class SixtServicio {
             }
         }
 
-        int id = dao.siguienteIdUsuario(this.usuarios);
+        int id = usuarioDao.siguienteId(this.usuarios);
         Vendedor nuevoVendedor = new Vendedor(id, username, password, dni, nombre, direccion, email, telefono);
 
         this.usuarios.add(nuevoVendedor);
-        dao.guardarUsuarios(this.usuarios);
+        usuarioDao.guardar(this.usuarios);
         return true;
     }
 
@@ -97,11 +107,11 @@ public class SixtServicio {
             }
         }
 
-        int id = dao.siguienteIdUsuario(this.usuarios);
+        int id = usuarioDao.siguienteId(this.usuarios);
         Cliente nuevoCliente = new Cliente(id, username, password, dni, nombre, direccion, email, telefono);
 
         this.usuarios.add(nuevoCliente);
-        dao.guardarUsuarios(this.usuarios);
+        usuarioDao.guardar(this.usuarios);
         return true;
     }
 
@@ -113,11 +123,11 @@ public class SixtServicio {
             }
         }
 
-        int id = dao.siguienteIdOficina(this.oficinas);
+        int id = oficinaDAO.siguienteIdOficina(this.oficinas);
         Oficina nuevaOficina = new Oficina(id, nombre, direccion);
 
         this.oficinas.add(nuevaOficina);
-        dao.guardarOficinas(this.oficinas);
+        oficinaDAO.guardar(this.oficinas);
         return true;
     }
 
@@ -146,7 +156,7 @@ public class SixtServicio {
             }
         }
 
-        int id = dao.siguienteIdVehiculo(this.vehiculos);
+        int id = vehiculoDAO.siguienteIdVehiculo(this.vehiculos);
         Vehiculo nuevoVehiculo;
 
         if (tipo.equals("AUTO")) {
@@ -156,7 +166,7 @@ public class SixtServicio {
         }
 
         this.vehiculos.add(nuevoVehiculo);
-        dao.guardarVehiculos(this.vehiculos);
+        vehiculoDAO.guardar(this.vehiculos);
         return true;
     }
 
@@ -275,7 +285,7 @@ public class SixtServicio {
         }
 
         dao.guardarReservas(this.reservas);
-        dao.guardarVehiculos(this.vehiculos); // persistimos la nueva ubicación de los vehículos
+        vehiculoDAO.guardar(this.vehiculos); // persistimos la nueva ubicación de los vehículos
         return true;
     }
 
@@ -307,11 +317,11 @@ public class SixtServicio {
             }
         }
 
-        int id = dao.siguienteIdUsuario(this.usuarios);
+        int id = usuarioDao.siguienteId(this.usuarios);
         Administrador nuevoAdmin = new Administrador(id, username, password, dni, nombre, direccion, email, telefono);
 
         this.usuarios.add(nuevoAdmin);
-        dao.guardarUsuarios(this.usuarios);
+        usuarioDao.guardar(this.usuarios);
         return true;
     }
 

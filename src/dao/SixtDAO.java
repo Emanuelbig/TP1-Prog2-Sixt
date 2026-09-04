@@ -18,66 +18,8 @@ import modelos.*;
 public class SixtDAO {
 
     
-    private final Path RUTA_VEHICULOS = Paths.get("data/vehiculos.txt");
+    
     private final Path RUTA_RESERVAS = Paths.get("data/reservas.txt");
-
-    // ================= SECCIÓN VEHÍCULOS =================
-    // Necesita la lista de oficinas ya cargada, para reconstruir oficinaActual
-    public void guardarVehiculos(List<Vehiculo> vehiculos) {
-        List<String> lineas = new ArrayList<>();
-        for (Vehiculo v : vehiculos) {
-            lineas.add(v.toCSV());
-        }
-        try {
-            Files.write(RUTA_VEHICULOS, lineas);
-        } catch (IOException e) {
-            System.out.println("Error al guardar vehiculos: " + e.getMessage());
-        }
-    }
-
-    public List<Vehiculo> leerVehiculos(List<Oficina> oficinas) {
-        List<Vehiculo> vehiculos = new ArrayList<>();
-        if (!Files.exists(RUTA_VEHICULOS)) {
-            return vehiculos;
-        }
-        try {
-            List<String> lineas = Files.readAllLines(RUTA_VEHICULOS);
-            for (String linea : lineas) {
-                // Formato: id;TIPO;patente;marca;modelo;color;precio;idOficina;[recargo]
-                String[] d = linea.split(",");
-
-                int id = Integer.parseInt(d[0]);
-                String tipo = d[1];
-                String patente = d[2];
-                String marca = d[3];
-                String modelo = d[4];
-                String color = d[5];
-                double precioBaseDiario = Double.parseDouble(d[6]);
-                int idOficina = Integer.parseInt(d[7]);
-                Oficina oficina = buscarOficinaPorId(oficinas, idOficina);
-
-                if (tipo.equals("AUTO")) {
-                    vehiculos.add(new Auto(id, patente, marca, modelo, color, precioBaseDiario, oficina));
-                } else if (tipo.equals("CAMIONETA")) {
-                    double recargoCapacidad = Double.parseDouble(d[8]);
-                    vehiculos.add(new Camioneta(id, patente, marca, modelo, color, precioBaseDiario, oficina, recargoCapacidad));
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("Error al leer vehiculos: " + e.getMessage());
-        }
-        return vehiculos;
-    }
-
-    public int siguienteIdVehiculo(List<Vehiculo> vehiculos) {
-        int max = 0;
-        for (Vehiculo v : vehiculos) {
-            if (v.getId() > max) {
-                max = v.getId();
-            }
-        }
-        return max + 1;
-    }
 
     // ================= SECCIÓN RESERVAS =================
     // Necesita usuarios, vehículos y oficinas ya cargados, para reconstruir referencias
